@@ -73,7 +73,7 @@ export default function Home() {
               className="bg-gray-50"
             >
               {SAFFRON_TEMPLATES.map((template: string) => (
-                <MenuItem value={template}>{template}</MenuItem>
+                <MenuItem key={template} value={template}>{template}</MenuItem>
               ))}
             </Select>
           </FormControl>
