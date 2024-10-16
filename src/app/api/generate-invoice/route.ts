@@ -5,10 +5,18 @@ import fs from 'fs/promises'
 
 export async function POST(req: NextRequest) {
   try {
-    const { invoiceNumber, description, template } = await req.json()
+    const { invoiceNumber, description, company, template } = await req.json()
 
     // Load the template Excel file
-    const templatePath = path.join(process.cwd(), 'public', `Saffron-${template}.xlsx`)
+    const templatePath = path.join(process.cwd(), 'public', `${company}-${template}.xlsx`)
+      try {
+        await fs.access('/etc/passwd', fs.constants.R_OK | fs.constants.W_OK);
+        console.log('can access');
+      } catch {
+        console.error('cannot access');
+        return NextResponse.json({ error: `No Template configured for Company(${company}) - Client(${template})` }, { status: 300 })
+      }
+
     const workbook = new ExcelJS.Workbook()
     await workbook.xlsx.readFile(templatePath)
 
