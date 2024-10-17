@@ -38,8 +38,8 @@ export default function Home() {
                 window.URL.revokeObjectURL(url)
             } else {
                 const _resp = await response.json()
-                console.error('Failed to generate invoice.' + _resp?.error)
-                alert('Failed to generate invoice' + _resp?.error)
+                console.error('Failed to generate Invoice. ' + _resp?.error)
+                alert('Failed to generate Invoice.\n' + _resp?.error)
             }
         } catch (error) {
             console.error('Error generating invoice:', error)

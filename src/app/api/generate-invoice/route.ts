@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
     // Load the template Excel file
     const templatePath = path.join(process.cwd(), 'public', `${company}-${template}.xlsx`)
       try {
-        await fs.access('/etc/passwd', fs.constants.R_OK | fs.constants.W_OK);
+        await fs.access(templatePath, fs.constants.R_OK | fs.constants.W_OK);
         console.log('can access');
       } catch {
         console.error('cannot access');
-        return NextResponse.json({ error: `No Template configured for Company(${company}) - Client(${template})` }, { status: 300 })
+        return NextResponse.json({ error: `No Template configured for Company(${company}) - Client(${template}).` }, { status: 300 })
       }
 
     const workbook = new ExcelJS.Workbook()
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     // Set the appropriate headers for file download
     const headers = new Headers()
-    headers.append('Content-Disposition', `attachment; filename="invoice_${invoiceNumber}.xlsx"`)
+    headers.append('Content-Disposition', `attachment; filename="Invoice-${invoiceNumber}-${company}-${template}.xlsx"`)
     headers.append('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
     // Return the file as a downloadable response
